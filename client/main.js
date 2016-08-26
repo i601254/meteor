@@ -28,27 +28,30 @@ Template.map.rendered = function() {
     accessToken: 'pk.eyJ1IjoiaTYwMTI1NCIsImEiOiJjaXMyN2FvN3AwMDJmMnpsa3d6dGh4MXZqIn0.3ZFXal84sFTUTOziIXO9NA'
   }).addTo(map);
  
-  //L.tileLayer.provider('OpenStreetMap.HOT').addTo(map);
-  L.marker([40.1668141, -76.8388169], {icon: redMarker} ).addTo(map);
+  L.marker([40.1668141, -76.8388169], {icon: redMarker} ).addTo(map);	// Installation location also used as center point of map
 
+// Draw circle around center point with 5 mile radius
   L.circle([40.1668141, -76.8388169], (5*mileTometer), {
     color: 'red',
-    fillColor: '#f03',
-    fillOpacity: 0.4
-  }).addTo(map);
-
-  L.circle([40.1668141, -76.8388169], (10*mileTometer), {
-    color: 'blue',
     fillColor: '#f03',
     fillOpacity: 0.2
   }).addTo(map);
 
+// Draw circle around center point with 10 mile radius
+  L.circle([40.1668141, -76.8388169], (10*mileTometer), {
+    color: 'blue',
+    fillColor: '',
+    fillOpacity: 0.0
+  }).addTo(map);
+
+// Draw circle around center point with 20 mile radiu
   L.circle([40.1668141, -76.8388169], (20*mileTometer), {
     color: 'orange',
     fillColor: '',
     fillOpacity: 0.0
   }).addTo(map);
 
+// Markers for random locations to simulate service requests
   var markers = [
     [40.152240, -76.966627, "Location 1"],
     [40.227363, -76.894572, "Location 2"],
