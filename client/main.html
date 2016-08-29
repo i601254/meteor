@@ -1,12 +1,26 @@
 <head>
-  <title>mymap</title>
+  <title>mapapp</title>
 </head>
 
 <body>
-  <h1>Welcome to Meteor!</h1>
+  <h1>Installation with surrounding service work</h1>
+  {{> getAddressForm}}
 
   {{> map}}
 </body>
+
+<template name="hello">
+  <button>Click Me</button>
+  <p>You've pressed the button {{counter}} times.</p>
+</template>
+
+<template name="getAddressForm">
+  <form>
+    Enter Installation Address:
+    <input type="text" name="installAddress">
+    <input type="submit" value="Map Location">
+  </form>
+</template>
 
 <template name="map">
   <div id="map" class="map"></div>

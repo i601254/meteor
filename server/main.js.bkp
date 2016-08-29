@@ -1,0 +1,20 @@
+import { Meteor } from 'meteor/meteor';
+Meteor.startup(() => {
+  // code to run on server at startup
+});
+
+// Geocoder Options using DSTK AWS server
+var options = {
+  host: '54.167.129.81',
+  httpAdapter: 'http',
+  formatter: null
+};
+
+// Called when submit button clicked. Sends address entered to Geocoder
+Meteor.methods({
+  'plotMap': function(installAddress){
+    var geo = new GeoCoder();
+    var result = geo.geocode(installAddress);
+    return result;
+  }
+});
