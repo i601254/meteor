@@ -28,20 +28,26 @@ Meteor.startup(() => {
 //});
 
 var addresses = [
-  "703 16th Street, New Cumberland PA 17070",
-  "542 Industrial Drive, Lewisberry PA 17339",
-  "1113 Musket Lane, Mechanicsburg PA 17055"
+   "703 16th Street, New Cumberland PA 17070",
+   "542 Industrial Drive, Lewisberry PA 17339",
+   "1113 Musket Lane, Mechanicsburg PA 17055"
 ];
 
+var address = JSON.stringify(addresses);  // Without this double quotes are converted to single quotes which breaks the curl request
+
 var curl = require('curlrequest');
+
+// Options for curl request
 var options = {
   url: 'http://54.167.129.81/street2coordinates',
   method: 'POST',
-  headers: 'Content-Type: application/json'
-//  data: '["703 16th Street, New Cumberland PA 17070","542 Industrial Drive, Lewisberry PA 17339","1113 Musket Lane, Mechanicsburg PA 17055"]'
+  headers: 'Content-Type: application/json',
+  data: address
  };
+
 var request = curl.request(options);
-request(options,{data:'["703 16th Street, New Cumberland PA 17070"]'}, function(err,resp) {
+
+request(function(err,resp) {
   if (err) {
     console.log(err);
   } else {
