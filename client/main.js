@@ -7,16 +7,29 @@ import './main.html';
 Template.getAddressForm.events({
   'submit form': function(event){
     event.preventDefault();
-    var installAddress = event.target.installAddress.value;
-    Meteor.call('plotMap', installAddress, function(err, res){
-      if(err) {
-        console.log('err', err);
-      }
-      else {
-       console.log(res);
-      }
+   // var installAddress = event.target.installAddress.value;
+   
+    var addresses = [
+       "703 16th Street, New Cumberland PA 17070",
+       "542 Industrial Drive, Lewisberry PA 17339",
+       "1113 Musket Lane, Mechanicsburg PA 17055"
+    ];
+    var options = {
+    //url: 'http://54.167.129.81/street2coordinates',
+    url: 'https://api.geocod.io/v1/geocode?api_key=ba13d81a7ca3a5ec7b55abefdba71f173dceeaf',
+    method: 'POST',
+    headers: 'Content-Type: application/json',
+    data: addresses
+    };
+   
+    Meteor.call('plotMap', options, function(error, result){
+       if (error) {
+         console.log(error);
+       }else{
+         console.log(result);
+       }
     });
-    event.target.installAddress.value = "";
+    //event.target.installAddress.value = "";
   }
 });
 
@@ -88,6 +101,6 @@ Template.map.rendered = function() {
             map.addLayer(marker);
 
             marker.bindPopup(popupText);
-  };
+  }
 };
 

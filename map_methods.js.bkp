@@ -1,0 +1,17 @@
+//all methods
+var curl = require('curlrequest');
+
+Meteor.methods({
+  'plotMap': function(options){
+     var urlRequest = curl.request(options);
+      urlRequest(function(err,resp) {
+         if (err) {
+            console.log(err);
+         }else{
+            var response = JSON.parse(resp);
+            console.log(response);
+         }
+      });
+  }
+});
+
