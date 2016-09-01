@@ -11,6 +11,12 @@ Meteor.startup(() => {
 var curl = require('curlrequest');
 
 Meteor.methods({
+  'getSessionId': function(){
+    return this.connection.id;
+  }
+});
+
+Meteor.methods({
   'plotMap': function(options){ 
      var future = new Future();
      var urlRequest = curl.request(options);
@@ -18,10 +24,10 @@ Meteor.methods({
          if (err) {
             console.log(err);
          }else{
-//          var response = JSON.parse(resp);
-            return future["return"](resp);
+          var response = JSON.parse(resp);
+            return future["return"](response);
             
-//            console.log((resp).data);
+//            console.log((response)["542 Industrial Drive, Lewisberry PA 17339"].latitude);
          }
       });
       return future.wait();
