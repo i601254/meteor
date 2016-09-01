@@ -1,7 +1,10 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
-
 import './main.html';
+
+Meteor.call("getSessionId", function(err, id) {
+  sessId = id;
+});
 
 // Submit button pressed
 Template.getAddressForm.events({
@@ -29,10 +32,13 @@ Template.getAddressForm.events({
        if (error) {
          console.log(error);
        }else{
-         console.log(result);
+         Session.set(sessId, result);
+	 var serviceMap = Session.get(sessId)
+         console.log(sessId);
+	 console.log(serviceMap);
        }
     });
-    //event.target.installAddress.value = "";
+
   }
 });
 
