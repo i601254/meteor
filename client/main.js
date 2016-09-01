@@ -14,12 +14,15 @@ Template.getAddressForm.events({
        "542 Industrial Drive, Lewisberry PA 17339",
        "1113 Musket Lane, Mechanicsburg PA 17055"
     ];
+
+    var addr = JSON.stringify(addresses);
+
     var options = {
-    //url: 'http://54.167.129.81/street2coordinates',
-    url: 'https://api.geocod.io/v1/geocode?api_key=ba13d81a7ca3a5ec7b55abefdba71f173dceeaf',
+    url: 'http://54.167.129.81/street2coordinates',   // my AWS DSTK server
+    //url: 'https://api.geocod.io/v1/geocode?api_key=ba13d81a7ca3a5ec7b55abefdba71f173dceeaf',
     method: 'POST',
     headers: 'Content-Type: application/json',
-    data: addresses
+    data: addr
     };
    
     Meteor.call('plotMap', options, function(error, result){
