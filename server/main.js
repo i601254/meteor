@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import '../imports/api/locations.js';
+import { HTTP } from 'meteor/http'
 
 Future = Npm.require('fibers/future');
 
@@ -19,7 +20,8 @@ Meteor.methods({
          }else{
 //          var response = JSON.parse(resp);
             return future["return"](resp);
-//            console.log(resp.results[query]);
+            
+//            console.log((resp).data);
          }
       });
       return future.wait();
