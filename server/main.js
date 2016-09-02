@@ -26,8 +26,7 @@ Meteor.methods({
          }else{
           var response = JSON.parse(resp);
             return future["return"](response);
-            
-//            console.log((response)["542 Industrial Drive, Lewisberry PA 17339"].latitude);
+           // console.log((response)["542 Industrial Drive, Lewisberry PA 17339"].latitude);
          }
       });
       return future.wait();

@@ -35,7 +35,7 @@ Template.getAddressForm.events({
          Session.set(sessId, result);
 	 var serviceMap = Session.get(sessId)
          console.log(sessId);
-	 console.log(serviceMap);
+	 console.log((serviceMap)["542 Industrial Drive, Lewisberry PA 17339"]);
        }
     });
 

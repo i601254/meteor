@@ -24,3 +24,5 @@ pauloborges:mapbox
 bevanhunt:leaflet
 appshore:leaflet-awesome-markers
 aldeed:geocoder
+http
+session
