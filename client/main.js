@@ -1,9 +1,16 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { Locations } from '../imports/api/locations.js';
 import './main.html';
 
 Meteor.call("getSessionId", function(err, id) {
   sessId = id;
+});
+
+Template.body.helpers({
+  locations() {
+    return Locations.find({});
+  },
 });
 
 // Submit button pressed
@@ -36,6 +43,10 @@ Template.getAddressForm.events({
 	 var serviceMap = Session.get(sessId)
          console.log(sessId);
 	 console.log((serviceMap)["542 Industrial Drive, Lewisberry PA 17339"]);
+         Locations.insert({
+           sessionId: sessId,
+           serviceMap,
+         });
        }
     });
 
