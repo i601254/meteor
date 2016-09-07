@@ -24,10 +24,28 @@ Meteor.methods({
          if (err) {
           console.log(err);
          }else{
-          var response = JSON.parse(resp);
+          var a = JSON.parse(resp);
 
-          return future["return"](response);
-//            console.log((response)["542 Industrial Drive, Lewisberry PA 17339"].latitude);
+//          return future["return"](response);
+
+      let geojsonFeature = {};
+      for (var property in a){
+        if (a.hasOwnProperty(property)) {
+          geojsonFeature = {
+            "type": "Feature",
+            "properties": {
+              "name": property,
+              "popupContent": property
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [ a[property].longitude, a[property].latitude ]
+            }
+          };
+//          console.log(geojsonFeature);
+            return future["return"](geojsonFeature);
+        }
+      }
          }
       });
     return future.wait();

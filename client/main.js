@@ -29,7 +29,6 @@ Template.getAddressForm.events({
 
     var options = {
     url: 'http://54.167.129.81/street2coordinates',   // my AWS DSTK server
-    //url: 'https://api.geocod.io/v1/geocode?api_key=ba13d81a7ca3a5ec7b55abefdba71f173dceeaf',
     method: 'POST',
     headers: 'Content-Type: application/json',
     data: addr
@@ -39,14 +38,16 @@ Template.getAddressForm.events({
        if (error) {
          console.log(error);
        }else{
-         Session.set(sessId, result);
-	 var serviceMap = Session.get(sessId)
-         console.log(sessId);
-	 console.log((serviceMap)["542 Industrial Drive, Lewisberry PA 17339"]);
-         Locations.insert({
-           sessionId: sessId,
-           serviceMap,
-         });
+//         Session.set(sessId, result);
+//	 var serviceMap = Session.get(sessId)
+//         console.log(sessId);
+           console.log(result);
+ 	   console.log((result).properties.name);
+           console.log((result).geometry.coordinates[1]);
+//         Locations.insert({
+//           sessionId: sessId,
+//           serviceMap,
+//         });
        }
     });
 
