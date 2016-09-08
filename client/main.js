@@ -74,6 +74,33 @@ Template.map.rendered = function() {
     markerColor: 'orange'
   });
 
+/// Geojson functions with Leaflet
+
+function onEachFeature(feature, layer){
+  if (feature.properties && feature.properties.popupContent) {
+    layer.bindPopup(feature.properties.popupContent);
+  }
+}
+
+  var geojsonFeature = {
+    "type": "Feature",
+    "properties": {
+      "name": "Coors Field",
+      "amenity": "Baseball Stadium",
+      "popupContent": "This is where the Rockies play!"
+  },
+  "geometry": {
+    "type": "Point",
+    "coordinates": [-104.99404, 39.75621]
+   }
+  };
+
+  L.geoJson(geojsonFeature, {
+    onEachFeature: onEachFeature
+  }).addTo(map);
+
+/// End of Geojson and Leaflet
+
   L.tileLayer('https://api.tiles.mapbox.com/v4/{mapID}/{z}/{x}/{y}.png?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org"/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
     mapID: 'i601254.15mj5o41',
