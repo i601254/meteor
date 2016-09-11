@@ -42,12 +42,9 @@ Template.getAddressForm.events({
 //	 var serviceMap = Session.get(sessId)
 //         console.log(sessId);
            console.log(result);
- 	   console.log((result).properties.name);
-           console.log((result).geometry.coordinates[1]);
-//         Locations.insert({
-//           sessionId: sessId,
-//           serviceMap,
-//         });
+// 	   console.log((result).properties.name);
+//           console.log((result).geometry.coordinates[1]);
+           Locations.insert(result);
        }
     });
 
@@ -129,6 +126,28 @@ function onEachFeature(feature, layer){
     fillColor: '',
     fillOpacity: 0.0
   }).addTo(map);
+
+// Add legend to map for circles
+  var legend = L.control({position: 'bottomright'});
+  legend.onAdd = function (map) {
+    var div = L.DomUtil.create('div', 'info legend');
+
+    categories = ['5 Mile', '10 Mile', '20 Mile'];
+    for (var i=0; i < categories.length; i++) {
+      div.innerHTML +=
+        '<i style="background:' + getColor(categories[i]) + '"></i> ' +
+        (categories[i] ? categories[i] + '<br>' : '+');
+    }
+
+    return div;
+    };
+    legend.addTo(map);
+
+function getColor(categories) {
+  return categories = '5 Mile' ? '#80026' :
+         categories = '10 Mile' ? 'blue' :
+                                  'orange';
+}
 
 // Markers for random locations to simulate service requests
   var markers = [

@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Locations } from '../imports/api/locations.js';
-import { HTTP } from 'meteor/http'
+//import { HTTP } from 'meteor/http'
 
 Future = Npm.require('fibers/future');
 
@@ -19,14 +19,12 @@ Meteor.methods({
 Meteor.methods({
   'plotMap': function(options){ 
      var future = new Future();
-     var urlRequest = curl.request(options);
+     var urlRequest = Meteor.wrapAsync(curl.request(options));
        urlRequest(function(err,resp) {
          if (err) {
-          console.log(err);
+           console.log(err);
          }else{
-          var a = JSON.parse(resp);
-
-//          return future["return"](response);
+           var a = JSON.parse(resp);
 
       let geojsonFeature = {};
       for (var property in a){
@@ -35,19 +33,22 @@ Meteor.methods({
             "type": "Feature",
             "properties": {
               "name": property,
+              "fips_county": a[property].fips_county,
               "popupContent": property
             },
             "geometry": {
               "type": "Point",
               "coordinates": [ a[property].longitude, a[property].latitude ]
             }
-          };
-//          console.log(geojsonFeature);
-            return future["return"](geojsonFeature);
+        };
+            Locations.insert(geojsonFeature);
+//            console.log(geojsonFeature);
+//            console.log(Object.keys(geojsonFeature).length);
+//            return future["return"](geojsonFeature);
         }
       }
-         }
-      });
+     }
+    });
     return future.wait();
   }
 });
