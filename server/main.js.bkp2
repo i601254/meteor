@@ -1,40 +1,28 @@
 import { Meteor } from 'meteor/meteor';
 import { Locations } from '../imports/api/locations.js';
-import { Zones } from '../imports/api/locations.js';
-
 //import { HTTP } from 'meteor/http'
 
 Future = Npm.require('fibers/future');
+
 
 Meteor.startup(() => {
   // code to run on server at startup
 });
 
-//tj = Npm.require('togeojson');  //parse .gpx file output to geojson
-//fs = Npm.require('fs');
-//jsdom = Npm.require('jsdom').jsdom; // node doesn't have xml parsing or a dom. use jsdom
+//tj = Npm.require('togeojson');
+fs = Npm.require('fs');
+    // node doesn't have xml parsing or a dom. use jsdom
+jsdom = Npm.require('jsdom').jsdom;
 
-//if (Zones.find().count() === 0) {
- //   console.log("Importing private/zones.geojson to mongo");
-//    var geodata = Assets.getText('zones.geojson');
- //   geodata.forEach(function (item) {
- //     Zones.insert(item);
- //   });
-//}
+//var geodata = Assets.getText('office_locations_tracks_ogrgeojson.geojson');
+//var gpx = jsdom(fs.readFileSync(geodata));
 
-//var gpx =jsdom(fs.readFileSync('../../../../../private/office_locations.gpx', 'utf8'));
-//var converted = tj.gpx(gpx);
-//Locations.insert(converted);
-//Zones.insert(geodata);
+//var geojsonFeature = tj.gpx(gpx);
+//console.log(geojsonFeature);
 
 //console.log(geodata);
 
-//var curl = require('curlrequest');
-
-Meteor.publish('zonemap', function publishFunction(){
-  console.log()
-  return Zones.find({'properties.name': 'TK1118'});
-});
+var curl = require('curlrequest');
 
 Meteor.methods({
   'getSessionId': function(){
@@ -43,21 +31,15 @@ Meteor.methods({
 });
 
 Meteor.methods({
-  'plotMap': function(){   
+  'plotMap': function(options){ 
      var future = new Future();
   //   var urlRequest = Meteor.wrapAsync(curl.request(options));
   //  var geodata = Assets.getText('office_locations.gpx');
   //  var gpx = jsdom(fs.readFileSync(geodata));
   //  var geojsonFeature = tj.kml(gpx);
-  
-//      zones = Zones.find( { "properties.name" : "TKIII8"});
-//      console.log(zones);
-//      return future["return"](zones);
 
-
- 
-//      var geodata = Assets.getText('office_locations_tracks_ogrgeojson.geojson');
-//      var gpx = Meteor.wrapAsync(jsdom(fs.readFileSync(geodata)));
+      var geodata = Assets.getText('office_locations_tracks_ogrgeojson.geojson');
+      var gpx = Meteor.wrapAsync(jsdom(fs.readFileSync(geodata)));
 
 //       urlRequest(function(err,resp) {
 //         if (err) {
@@ -86,12 +68,12 @@ Meteor.methods({
 ////              return Locations.find();
 ////            });
 ////            console.log(Object.keys(geojsonFeature).length);
-//            return future["return"](gpx);
+            return future["return"](gpx);
 //        }
 //      }
 //     }  //close 'else'
 //    });  //close 'urlRequest(function)'
-    return future.wait();
+//    return future.wait();
 //    Meteor.publish('jobs', function(){
 //      return Locations.find();
 //    });
