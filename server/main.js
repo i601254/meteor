@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Locations } from '../imports/api/locations.js';
 import { Zones } from '../imports/api/locations.js';
+import { zoneMaps } from '../lib/collections.js';
 
 //import { HTTP } from 'meteor/http'
 
@@ -31,9 +32,8 @@ Meteor.startup(() => {
 
 //var curl = require('curlrequest');
 
-Meteor.publish('zonemap', function publishFunction(){
-  console.log()
-  return Zones.find({'properties.name': 'TK1118'});
+Meteor.publish('zonemap', function(){
+  return zoneMaps();
 });
 
 Meteor.methods({

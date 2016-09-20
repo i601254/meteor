@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
-//import { Locations } from '../imports/api/locations.js';
+import { zoneMaps } from '../lib/collections.js';
 import { Zones } from '../imports/api/locations.js';
 import './main.html';
 
@@ -19,8 +19,6 @@ Template.getAddressForm.events({
   'submit form': function(event){
     event.preventDefault();
    // var installAddress = event.target.installAddress.value;
-   
-    var zoneId = 'TK1118';  
  
     Meteor.call('plotMap', zoneId, function(error, result){
        if (error) {
@@ -68,6 +66,13 @@ geojsonFeature = {
 };
 */
 
+Meteor.subscribe('zonemap');
+
+Template.zoneMaps.items = function() {
+  return zoneMaps();
+};
+
+
 Template.map.rendered = function() {
   L.Icon.Default.imagePath = 'packages/bevanhunt_leaflet/images';
  
@@ -75,7 +80,7 @@ Template.map.rendered = function() {
   doubleClickZoom: false
 }).setView([40.1668141, -76.8388169], 10);
 
-  var mileTometer = 1609.34;
+  var mileTometer = 1609.34;    // Used for radius of circles to convert meters to miles
   
 //  L.geoJson(geojsonFeature).addTo(map);
   
@@ -116,13 +121,14 @@ function onEachFeature(feature, layer){
 
 /// End of Geojson and Leaflet
 
-/**     **/
+/** Add Map Tiles from Mapbox  **/
   L.tileLayer('https://api.tiles.mapbox.com/v4/{mapID}/{z}/{x}/{y}.png?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org"/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
     mapID: 'i601254.15mj5o41',
     accessToken: 'pk.eyJ1IjoiaTYwMTI1NCIsImEiOiJjaXMyN2FvN3AwMDJmMnpsa3d6dGh4MXZqIn0.3ZFXal84sFTUTOziIXO9NA'
   }).addTo(map);
- 
+/** End of Map Tiles **/
+
   L.marker([40.1668141, -76.8388169], {icon: redMarker} ).addTo(map);	// Installation location also used as center point of map
 
 // Draw circle around center point with 5 mile radius
@@ -146,28 +152,6 @@ function onEachFeature(feature, layer){
     fillOpacity: 0.0
   }).addTo(map);
 
-// Add legend to map for circles
-/*  var legend = L.control({position: 'bottomright'});
-  legend.onAdd = function (map) {
-    var div = L.DomUtil.create('div', 'info legend');
-
-    categories = ['5 Mile', '10 Mile', '20 Mile'];
-    for (var i=0; i < categories.length; i++) {
-      div.innerHTML +=
-        '<i style="background:' + getColor(categories[i]) + '"></i> ' +
-        (categories[i] ? categories[i] + '<br>' : '+');
-    }
-
-    return div;
-    };
-    legend.addTo(map);
-
-function getColor(categories) {
-  return categories = '5 Mile' ? '#80026' :
-         categories = '10 Mile' ? 'blue' :
-                                  'orange';
-}
-*/
 
 // Markers for random locations to simulate service requests
 //  var markers = [
