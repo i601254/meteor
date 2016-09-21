@@ -23,12 +23,6 @@ Meteor.startup(() => {
  //   });
 //}
 
-//var gpx =jsdom(fs.readFileSync('../../../../../private/office_locations.gpx', 'utf8'));
-//var converted = tj.gpx(gpx);
-//Locations.insert(converted);
-//Zones.insert(geodata);
-
-//console.log(geodata);
 
 //var curl = require('curlrequest');
 

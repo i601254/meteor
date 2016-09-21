@@ -1,11 +1,19 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { zoneMaps } from '../lib/collections.js';
-import { Zones } from '../imports/api/locations.js';
+//import { Zones } from '../imports/api/locations.js';
 import './main.html';
+
+Zones = new Mongo.Collection("zones");
 
 Meteor.call("getSessionId", function(err, id) {
   sessId = id;
+});
+
+Template.zonemap.helpers({
+    zones: function () {
+      return Zones.find( {} );
+    }
 });
 
 Template.body.helpers({
@@ -66,11 +74,11 @@ geojsonFeature = {
 };
 */
 
-Meteor.subscribe('zonemap');
+//Meteor.subscribe('zonemap');
 
-Template.zoneMaps.items = function() {
-  return zoneMaps();
-};
+//Template.zoneMaps.items = function() {
+//  return zoneMaps();
+//};
 
 
 Template.map.rendered = function() {
