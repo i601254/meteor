@@ -2,12 +2,13 @@ import { Meteor } from 'meteor/meteor';
 //import { Locations } from '../imports/api/locations.js';
 //import { Zones } from '../imports/api/locations.js';
 
-//Zones = new Mongo.Collection('zones');
+Zones = new Mongo.Collection('zones');
 
 Future = Npm.require('fibers/future');
 
 Meteor.startup(() => {
-  // code to run on server at startup
+  geoBoundaries = Zones.find();
+  console.log(geoBoundaries);
 });
 
 Meteor.methods({

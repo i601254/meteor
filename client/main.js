@@ -3,6 +3,8 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { Session } from 'meteor/session';
 import './main.html';
 
+Zones = new Mongo.Collection('zones');
+
 Meteor.call("getSessionId", function(err, id) {
   sessId = id;
 });
@@ -24,21 +26,15 @@ Template.getAddressForm.events({
     data: installAddress
     };
     
-     Meteor.call('plotMap', options, function(err, resp){
-      if (err) {
-         console.log(err);
-      }else{
+    Meteor.call('plotMap', options, function(resp){
+      var sessionVal = Session.get
+      Tracker.autorun(function(resp) {
+        Session.set('finalAddress', ((resp)[installAddress]));
         Session.set('finalLat', ((resp)[installAddress].latitude));
         Session.set('finalLon', ((resp)[installAddress].longitude));
-      }
+      });
     });
 
-  }
-});
-
-Template.plot_map.helpers({
-  mapPin: function(){
-  return Session.get('finalLat');
   }
 });
 
@@ -55,10 +51,10 @@ Template.map.helpers({
     map.addLayer(marker);
     } */
 
-Template.map.rendered = function() {
+Template.map.onRendered(function() {
   L.Icon.Default.imagePath = 'packages/bevanhunt_leaflet/images';
  
-    var map = L.map('map', {
+    map = L.map('map', {
     doubleClickZoom: false
   }).setView([39.8283572, -98.5764116], 5);
   
@@ -89,6 +85,13 @@ Template.map.rendered = function() {
     }).addTo(map);
   /** End of Map Tiles **/
   
+    lat = Session.get('finalLat');
+    lon = Session.get('finalLon');
+
+    markerLocation = new L.LatLng(lat, lon);
+    var marker = new L.marker(markerLocation);
+    map.addLayer(marker);
+  
   /** Plot polygons **/
   //  L.geoJson(geojsonCoordinates, {
    //   style: style92
@@ -118,4 +121,17 @@ Template.map.rendered = function() {
  
      //         marker.bindPopup(popupText);
    // }
-};
+});
+
+/*Template.map.helpers({
+  mapPin: function(){
+    lat = Session.get('finalLat');
+    lon = Session.get('finalLon');
+
+    markerLocation = new L.LatLng(lat, lon);
+    var marker = new L.marker(markerLocation);
+    map.addLayer(marker);
+
+    //marker.bindPopup(popupText);
+  }
+});*/
